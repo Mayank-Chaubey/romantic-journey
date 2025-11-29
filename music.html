@@ -251,17 +251,13 @@
       </div>
 
       <div class="playlist">
-        <div class="playlist-title">🎶 Suggested Songs</div>
-        <div class="song-item playing">💕 A Thousand Years — Christina Perri</div>
-        <div class="song-item">🌹 Love Story — Taylor Swift</div>
-        <div class="song-item">💫 Thinking Out Loud — Ed Sheeran</div>
-        <div class="song-item">✨ Enchanted — Taylor Swift</div>
-        <div class="song-item">🎼 All Too Well — Taylor Swift</div>
-        <div class="song-item">🌙 Lover — Taylor Swift</div>
-        <div class="song-item">💖 Invisible String — Taylor Swift</div>
-        <div class="song-item">🎵 Begin Again — Taylor Swift</div>
-        <div class="song-item">✨ The Best Day of My Life — American Authors</div>
-        <div class="song-item">🌹 Perfect — Ed Sheeran</div>
+        <div class="playlist-title">🎶 Taylor Swift Playlist</div>
+          <div class="song-item">🌹 Love Story — Taylor Swift</div>
+          <div class="song-item">✨ Enchanted — Taylor Swift</div>
+          <div class="song-item">🎼 All Too Well — Taylor Swift</div>
+          <div class="song-item">🌙 Lover — Taylor Swift</div>
+          <div class="song-item">💖 Invisible String — Taylor Swift</div>
+          <div class="song-item">🎵 Begin Again — Taylor Swift</div>
       </div>
     </div>
 
@@ -299,36 +295,24 @@
 
     createFloatingNotes();
 
-    // Audio player setup
+    // Audio player setup - we will use YouTube embeds for Taylor Swift songs
     const audioPlayer = document.getElementById('audioPlayer');
-    const songMapping = {
-      'A Thousand Years': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-      'Love Story': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-      'Thinking Out Loud': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-      'Enchanted': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
-      'All Too Well': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
-      'Lover': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
-      'Invisible String': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
-      'Begin Again': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
-      'The Best Day of My Life': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
-      'Perfect': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3'
-    };
+    const songMapping = {}; // no local audio mappings for copyrighted Taylor songs
 
     // Player functionality
-    let isPlaying = false;
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
     const stopBtn = document.getElementById('stopBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     const songItems = document.querySelectorAll('.song-item');
-    let currentSong = 'A Thousand Years';
+    let currentSong = 'Love Story';
 
     // Add YouTube quick-link buttons to each song item (open embedded YouTube modal)
     function openYouTubeEmbed(query) {
       const modal = document.getElementById('ytModal');
       const frame = document.getElementById('ytFrame');
-      // Use YouTube embed search playlist so users can pick official video
-      frame.src = 'https://www.youtube.com/embed?listType=search&list=' + encodeURIComponent(query) + '&autoplay=1&rel=0';
+      // Use YouTube embed search playlist for the Taylor Swift song (prefer official results)
+      frame.src = 'https://www.youtube.com/embed?listType=search&list=' + encodeURIComponent(query + ' Taylor Swift official audio') + '&autoplay=1&rel=0';
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
     }
@@ -345,8 +329,8 @@
     document.getElementById('ytModal').addEventListener('click', (e) => { if (e.target.id === 'ytModal') closeYouTubeEmbed(); });
 
     songItems.forEach(item => {
-      const rawText = item.firstChild && item.firstChild.nodeValue ? item.firstChild.nodeValue.trim() : item.textContent.trim();
-      const title = rawText.replace(/\s*YouTube\s*$/i, '').trim();
+      const rawText = item.textContent.trim();
+      const title = rawText.replace(/^\W+/, '').trim();
       const ytBtn = document.createElement('button');
       ytBtn.className = 'yt-btn';
       ytBtn.type = 'button';
@@ -388,34 +372,23 @@
       console.log('Volume: ' + e.target.value + '%');
     });
 
-    // Arrange each song item with a title span and keep click-to-play behavior
+    // Arrange each song item with a title span and open YouTube on click
     songItems.forEach((item) => {
       const text = item.textContent.trim();
-      // Extract title (remove emoji at start if present)
-      const titleMatch = text.match(/^[^\w]*([\w\s'\-,:.()]+ — [^\n]+)|^[^\w]*([\w\s'\-,:.()]+)$/);
-      const titleText = titleMatch ? (titleMatch[1] || titleMatch[2] || text) : text;
+      const cleanTitle = text.replace(/^\W+/, '').trim();
 
       item.innerHTML = '';
       const span = document.createElement('span');
       span.className = 'song-title';
-      span.textContent = titleText.trim();
+      span.textContent = cleanTitle;
       item.appendChild(span);
 
-      // keep click-to-play on the row
+      // clicking the row opens the YouTube embed for Taylor Swift
       item.addEventListener('click', (ev) => {
-        // ignore clicks on the yt button (they have their own handler)
         if (ev.target.closest('.yt-btn')) return;
-        currentSong = span.textContent;
         songItems.forEach(s => s.classList.remove('playing'));
         item.classList.add('playing');
-
-        const songTitle = currentSong.split(' — ')[0].trim();
-        const audioUrl = songMapping[songTitle] || Object.values(songMapping)[0];
-        audioPlayer.src = audioUrl;
-        audioPlayer.play();
-        playBtn.classList.add('active');
-        pauseBtn.classList.remove('active');
-        stopBtn.classList.remove('active');
+        openYouTubeEmbed(cleanTitle);
       });
     });
 
