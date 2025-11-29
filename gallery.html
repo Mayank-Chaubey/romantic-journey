@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Memories</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;700&display=swap');
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      width: 100%; min-height: 100%; font-family: 'Nunito', serif;
+      overflow-x: hidden; position: relative;
+      background: linear-gradient(180deg, #fff5f8 0%, #ffebf0 50%, #fff8fb 100%);
+      color: #332c2f; -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background: linear-gradient(180deg, #fff5f8 0%, #ffebf0 50%, #fff8fb 100%); }
+      50% { background: linear-gradient(180deg, #ffebf0 0%, #ffe0ec 50%, #fff0f6 100%); }
+    }
+    body { animation: gradient-shift 15s ease-in-out infinite; }
+
+    .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 40px; gap: 40px; }
+
+    h1 { font-family: 'Playfair Display', serif; font-size: 48px; color: #d33b6a; text-align: center; margin-bottom: 20px; animation: fade-in 0.8s ease-out; }
+
+    .gallery {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px; max-width: 1000px; width: 100%;
+      animation: fade-in 1s ease-out 0.3s both;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.9); border-radius: 20px; padding: 20px;
+      box-shadow: 0 20px 50px rgba(80,40,60,0.08); cursor: pointer;
+      transition: all 0.4s cubic-bezier(.2,.8,.2,1); position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,200,220,0.2) 0%, transparent 70%);
+      animation: shine 3s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translate(-30%, -30%) scale(0.8); }
+      50% { transform: translate(20%, 20%) scale(1.2); }
+      100% { transform: translate(-30%, -30%) scale(0.8); }
+    }
+
+    .card:hover { transform: translateY(-8px) scale(1.05); box-shadow: 0 40px 80px rgba(255,90,130,0.15); }
+
+    .card-emoji { font-size: 60px; display: block; text-align: center; margin-bottom: 15px; animation: float-emoji 3s ease-in-out infinite; }
+
+    @keyframes float-emoji {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .card-title { font-family: 'Playfair Display', serif; font-size: 24px; color: #b64a6a; margin-bottom: 10px; position: relative; z-index: 1; }
+
+    .card-text { font-size: 14px; color: #6b5b5f; line-height: 1.6; position: relative; z-index: 1; }
+
+    .nav-buttons {
+      display: flex; gap: 20px; margin-top: 40px; justify-content: center;
+    }
+
+    .nav-btn {
+      padding: 12px 28px; border: none; border-radius: 999px;
+      background: linear-gradient(90deg, #ffd1e8, #ffdff6); color: #5b2b42;
+      font-weight: 600; cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(255,107,157,0.15);
+    }
+
+    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,157,0.25); }
+
+    .page-dots {
+      position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 10px; z-index: 5000;
+    }
+
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: rgba(255,107,157,0.4); cursor: pointer;
+      transition: all 0.3s; border: 2px solid transparent;
+    }
+
+    .dot.active {
+      background: #ff6b9d; transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(255,107,157,0.6);
+    }
+
+    .dot:hover { background: rgba(255,107,157,0.8); }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💝 Our Cherished Moments 💝</h1>
+    <div class="gallery">
+      <div class="card">
+        <span class="card-emoji">😊</span>
+        <div class="card-title">Your Smile</div>
+        <div class="card-text">The most beautiful thing I've ever seen. It lights up every moment of my life.</div>
+      </div>
+      <div class="card">
+        <span class="card-emoji">💕</span>
+        <div class="card-title">My Love</div>
+        <div class="card-text">Pure, unconditional, and growing stronger every single day with you.</div>
+      </div>
+      <div class="card">
+        <span class="card-emoji">🌹</span>
+        <div class="card-title">Your Grace</div>
+        <div class="card-text">The way you carry yourself with strength and beauty amazes me always.</div>
+      </div>
+      <div class="card">
+        <span class="card-emoji">🎵</span>
+        <div class="card-title">Our Song</div>
+        <div class="card-text">Every moment with you is a melody that plays in my heart.</div>
+      </div>
+      <div class="card">
+        <span class="card-emoji">🌙</span>
+        <div class="card-title">Night Dreams</div>
+        <div class="card-text">You're my favorite thought before sleep and first feeling upon waking.</div>
+      </div>
+      <div class="card">
+        <span class="card-emoji">✨</span>
+        <div class="card-title">Forever</div>
+        <div class="card-text">A promise to always be here, always care, always love you.</div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <a href="khushu.html" class="nav-btn">← Letter</a>
+      <a href="quotes.html" class="nav-btn">Quotes →</a>
+    </div>
+  </div>
+
+  <div class="page-dots" id="pageDots"></div>
+
+  <script>
+    // Page dots navigation
+    const pages = [
+      { title: 'Letter', url: 'khushu.html' },
+      { title: 'Gallery', url: 'gallery.html' },
+      { title: 'Quotes', url: 'quotes.html' },
+      { title: 'Music', url: 'music.html' },
+      { title: 'Forever', url: 'closing.html' }
+    ];
+
+    function getCurrentPageIndex() {
+      const currentFile = window.location.pathname.split('/').pop() || 'gallery.html';
+      return pages.findIndex(p => p.url === currentFile);
+    }
+
+    function initializePageDots() {
+      const dotsContainer = document.getElementById('pageDots');
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const currentIndex = getCurrentPageIndex();
+      pages.forEach((page, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (index === currentIndex ? ' active' : '');
+        dot.title = 'Go to ' + page.title;
+        dot.addEventListener('click', () => { window.location.href = page.url; });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    initializePageDots();
+  </script>
+</body>
+</html>

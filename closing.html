@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forever Promise</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&family=Nunito:wght@300;400;700&display=swap');
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      width: 100%; min-height: 100vh; font-family: 'Nunito', serif;
+      background: radial-gradient(circle at 20% 50%, rgba(255,220,230,0.4) 0%, transparent 50%), linear-gradient(135deg, #fff5f8 0%, #ffe8f2 100%);
+      display: flex; align-items: center; justify-content: center; padding: 40px; color: #332c2f;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .content {
+      max-width: 700px; width: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,250,250,0.95));
+      border-radius: 30px; padding: 80px 60px;
+      box-shadow: 0 40px 100px rgba(80,40,60,0.12), 0 10px 30px rgba(255,200,220,0.2) inset;
+      border: 1px solid rgba(255,200,220,0.35);
+      animation: scale-in 0.8s cubic-bezier(.2,.8,.2,1);
+    }
+
+    @keyframes scale-in {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif; font-size: 52px; color: #d33b6a;
+      text-align: center; margin-bottom: 30px; animation: fade-in-down 0.8s ease-out;
+      text-shadow: 0 6px 20px rgba(210,60,110,0.08);
+    }
+
+    .promise {
+      font-size: 18px; line-height: 2; text-align: center; color: #5b3a45;
+      margin-bottom: 40px; animation: fade-in-up 0.8s ease-out 0.2s both;
+      font-style: italic;
+    }
+
+    .rose { text-align: center; font-size: 72px; margin: 30px 0; animation: bloom 4s ease-in-out infinite; }
+
+    @keyframes bloom {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.15) rotate(8deg); }
+    }
+
+    .closing-msg {
+      text-align: center; font-size: 20px; color: #b64a6a;
+      margin-top: 40px; animation: fade-in-up 0.8s ease-out 0.4s both;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .signature { font-size: 36px; font-family: 'Great Vibes', cursive; text-align: center; color: #d33b6a; margin-top: 20px; animation: fade-in-up 0.8s ease-out 0.6s both; }
+
+    .nav { display: flex; gap: 20px; justify-content: center; margin-top: 50px; }
+
+    .btn {
+      padding: 12px 30px; border: none; border-radius: 999px;
+      background: linear-gradient(90deg, #ffd1e8, #ffdff6);
+      color: #5b2b42; font-weight: 600; cursor: pointer;
+      transition: all 0.3s; text-decoration: none; display: inline-block;
+      box-shadow: 0 8px 20px rgba(255,107,157,0.15);
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,157,0.25); }
+
+    .page-dots {
+      position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 10px; z-index: 5000;
+    }
+
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: rgba(255,107,157,0.4); cursor: pointer;
+      transition: all 0.3s; border: 2px solid transparent;
+    }
+
+    .dot.active {
+      background: #ff6b9d; transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(255,107,157,0.6);
+    }
+
+    .dot:hover { background: rgba(255,107,157,0.8); }
+
+    @keyframes fade-in-down {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Forever & Always</h1>
+    <div class="promise">
+      From this moment on, I promise to be the person you deserve.<br>
+      To hold your hand through every season,<br>
+      To celebrate your strength and heal your wounds,<br>
+      To love you more deeply with each passing day.
+    </div>
+    <div class="rose">💐</div>
+    <div class="closing-msg">
+      You are my greatest blessing, my sweetest dream, and my forever home.
+    </div>
+    <div class="signature">With all my love, always</div>
+    <div class="nav">
+      <a href="music.html" class="btn">← Music</a>
+      <a href="khushu.html" class="btn">Start Over</a>
+    </div>
+  </div>
+
+  <div class="page-dots" id="pageDots"></div>
+
+  <script>
+    // Page dots navigation
+    const pages = [
+      { title: 'Letter', url: 'khushu.html' },
+      { title: 'Gallery', url: 'gallery.html' },
+      { title: 'Quotes', url: 'quotes.html' },
+      { title: 'Music', url: 'music.html' },
+      { title: 'Forever', url: 'closing.html' }
+    ];
+
+    function getCurrentPageIndex() {
+      const currentFile = window.location.pathname.split('/').pop() || 'closing.html';
+      return pages.findIndex(p => p.url === currentFile);
+    }
+
+    function initializePageDots() {
+      const dotsContainer = document.getElementById('pageDots');
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const currentIndex = getCurrentPageIndex();
+      pages.forEach((page, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (index === currentIndex ? ' active' : '');
+        dot.title = 'Go to ' + page.title;
+        dot.addEventListener('click', () => { window.location.href = page.url; });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    initializePageDots();
+  </script>
+</body>
+</html>

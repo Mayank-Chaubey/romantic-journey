@@ -1,0 +1,11 @@
+[build]
+  command = "echo 'Static site - no build needed'"
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/khushu.html"
+  status = 200
+
+[context.production.environment]
+  NETLIFY_USE_YARN = false
