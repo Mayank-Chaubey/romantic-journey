@@ -150,6 +150,14 @@
       border-left-color: #ff4d7a; font-weight: 600;
     }
 
+    .yt-btn {
+      float: right; display: inline-block; padding: 6px 10px; margin-left: 12px;
+      background: #ff3333; color: white; border-radius: 8px; font-size: 12px;
+      text-decoration: none; font-weight: 700; box-shadow: 0 6px 18px rgba(255,50,80,0.12);
+    }
+
+    .yt-btn:hover { transform: translateY(-2px); }
+
     .nav-buttons {
       display: flex; justify-content: space-between;
       margin-top: 50px; gap: 20px;
@@ -285,6 +293,19 @@
     const volumeSlider = document.getElementById('volumeSlider');
     const songItems = document.querySelectorAll('.song-item');
     let currentSong = 'A Thousand Years';
+
+    // Add YouTube quick-link buttons to each song item (opens search on YouTube)
+    songItems.forEach(item => {
+      const title = item.textContent.trim();
+      const ytAnchor = document.createElement('a');
+      ytAnchor.className = 'yt-btn';
+      ytAnchor.textContent = 'YouTube';
+      ytAnchor.target = '_blank';
+      ytAnchor.rel = 'noopener noreferrer';
+      // Open a YouTube search for the song (user can pick the official video)
+      ytAnchor.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(title);
+      item.appendChild(ytAnchor);
+    });
 
     playBtn?.addEventListener('click', () => {
       const songTitle = currentSong.split(' — ')[0].trim();
