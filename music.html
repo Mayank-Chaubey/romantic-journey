@@ -136,8 +136,8 @@
       background: rgba(255,200,220,0.08);
       border-left: 3px solid #ff6b9d;
       border-radius: 8px; cursor: pointer;
-      transition: all 0.3s; text-align: left;
-      color: #5b3a45;
+      transition: all 0.3s; color: #5b3a45;
+      display: flex; align-items: center; justify-content: space-between;
     }
 
     .song-item:hover {
@@ -151,12 +151,16 @@
     }
 
     .yt-btn {
-      float: right; display: inline-block; padding: 6px 10px; margin-left: 12px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 10px; margin-left: 12px;
       background: #ff3333; color: white; border-radius: 8px; font-size: 12px;
       text-decoration: none; font-weight: 700; box-shadow: 0 6px 18px rgba(255,50,80,0.12);
+      border: none; cursor: pointer;
     }
 
     .yt-btn:hover { transform: translateY(-2px); }
+
+    .song-title { flex: 1 1 auto; text-align: left; padding-right: 12px; }
 
     /* YouTube modal */
     .yt-modal {
@@ -384,13 +388,27 @@
       console.log('Volume: ' + e.target.value + '%');
     });
 
+    // Arrange each song item with a title span and keep click-to-play behavior
     songItems.forEach((item) => {
-      item.addEventListener('click', () => {
-        currentSong = item.textContent;
+      const text = item.textContent.trim();
+      // Extract title (remove emoji at start if present)
+      const titleMatch = text.match(/^[^\w]*([\w\s'\-,:.()]+ — [^\n]+)|^[^\w]*([\w\s'\-,:.()]+)$/);
+      const titleText = titleMatch ? (titleMatch[1] || titleMatch[2] || text) : text;
+
+      item.innerHTML = '';
+      const span = document.createElement('span');
+      span.className = 'song-title';
+      span.textContent = titleText.trim();
+      item.appendChild(span);
+
+      // keep click-to-play on the row
+      item.addEventListener('click', (ev) => {
+        // ignore clicks on the yt button (they have their own handler)
+        if (ev.target.closest('.yt-btn')) return;
+        currentSong = span.textContent;
         songItems.forEach(s => s.classList.remove('playing'));
         item.classList.add('playing');
-        
-        // Auto-play the selected song
+
         const songTitle = currentSong.split(' — ')[0].trim();
         const audioUrl = songMapping[songTitle] || Object.values(songMapping)[0];
         audioPlayer.src = audioUrl;
