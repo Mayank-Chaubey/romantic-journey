@@ -308,11 +308,26 @@
     let currentSong = 'Love Story';
 
     // Add YouTube quick-link buttons to each song item (open embedded YouTube modal)
+    // Official YouTube video IDs (picked from search results)
+    const officialVideoMap = {
+      'Love Story': '8xg3vE8Ie_E',
+      'Enchanted': 'x8LoxTeo4lM',
+      'All Too Well': 'tollGa3S0o8',
+      'Lover': '-BjZmE2gtdo',
+      'Invisible String': 'OuFnpmGwg5k',
+      'Begin Again': 'cMPEd8m79Hw'
+    };
+
     function openYouTubeEmbed(query) {
       const modal = document.getElementById('ytModal');
       const frame = document.getElementById('ytFrame');
-      // Use YouTube embed search playlist for the Taylor Swift song (prefer official results)
-      frame.src = 'https://www.youtube.com/embed?listType=search&list=' + encodeURIComponent(query + ' Taylor Swift official audio') + '&autoplay=1&rel=0';
+      const key = Object.keys(officialVideoMap).find(k => query.toLowerCase().includes(k.toLowerCase()));
+      if (key) {
+        frame.src = 'https://www.youtube.com/embed/' + officialVideoMap[key] + '?autoplay=1&rel=0';
+      } else {
+        // fallback to a YouTube search embed if we don't have an ID
+        frame.src = 'https://www.youtube.com/embed?listType=search&list=' + encodeURIComponent(query + ' Taylor Swift official audio') + '&autoplay=1&rel=0';
+      }
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
     }
