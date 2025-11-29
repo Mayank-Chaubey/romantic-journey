@@ -136,8 +136,13 @@
       background: rgba(255,200,220,0.08);
       border-left: 3px solid #ff6b9d;
       border-radius: 8px; cursor: pointer;
+<<<<<<< HEAD
       transition: all 0.3s; color: #5b3a45;
       display: flex; align-items: center; justify-content: space-between;
+=======
+      transition: all 0.3s; text-align: left;
+      color: #5b3a45;
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
     }
 
     .song-item:hover {
@@ -150,6 +155,7 @@
       border-left-color: #ff4d7a; font-weight: 600;
     }
 
+<<<<<<< HEAD
     .yt-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 6px 10px; margin-left: 12px;
@@ -179,6 +185,8 @@
     }
     .yt-frame { width: 100%; height: 56vw; max-height: 560px; border: none; display: block; }
 
+=======
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
     .nav-buttons {
       display: flex; justify-content: space-between;
       margin-top: 50px; gap: 20px;
@@ -251,6 +259,7 @@
       </div>
 
       <div class="playlist">
+<<<<<<< HEAD
         <div class="playlist-title">🎶 Taylor Swift Playlist</div>
           <div class="song-item">🌹 Love Story — Taylor Swift</div>
           <div class="song-item">✨ Enchanted — Taylor Swift</div>
@@ -258,6 +267,19 @@
           <div class="song-item">🌙 Lover — Taylor Swift</div>
           <div class="song-item">💖 Invisible String — Taylor Swift</div>
           <div class="song-item">🎵 Begin Again — Taylor Swift</div>
+=======
+        <div class="playlist-title">🎶 Suggested Songs</div>
+        <div class="song-item playing">💕 A Thousand Years — Christina Perri</div>
+        <div class="song-item">🌹 Love Story — Taylor Swift</div>
+        <div class="song-item">💫 Thinking Out Loud — Ed Sheeran</div>
+        <div class="song-item">✨ Enchanted — Taylor Swift</div>
+        <div class="song-item">🎼 All Too Well — Taylor Swift</div>
+        <div class="song-item">🌙 Lover — Taylor Swift</div>
+        <div class="song-item">💖 Invisible String — Taylor Swift</div>
+        <div class="song-item">🎵 Begin Again — Taylor Swift</div>
+        <div class="song-item">✨ The Best Day of My Life — American Authors</div>
+        <div class="song-item">🌹 Perfect — Ed Sheeran</div>
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
       </div>
     </div>
 
@@ -269,6 +291,7 @@
 
   <div class="page-dots" id="pageDots"></div>
 
+<<<<<<< HEAD
   <!-- YouTube embed modal -->
   <div id="ytModal" class="yt-modal" aria-hidden="true">
     <div class="inner">
@@ -277,6 +300,8 @@
     </div>
   </div>
 
+=======
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
   <script>
     function createFloatingNotes() {
       const container = document.getElementById('notes-container');
@@ -295,16 +320,37 @@
 
     createFloatingNotes();
 
+<<<<<<< HEAD
     // Audio player setup - we will use YouTube embeds for Taylor Swift songs
     const audioPlayer = document.getElementById('audioPlayer');
     const songMapping = {}; // no local audio mappings for copyrighted Taylor songs
 
     // Player functionality
+=======
+    // Audio player setup
+    const audioPlayer = document.getElementById('audioPlayer');
+    const songMapping = {
+      'A Thousand Years': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      'Love Story': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+      'Thinking Out Loud': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      'Enchanted': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+      'All Too Well': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+      'Lover': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+      'Invisible String': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
+      'Begin Again': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+      'The Best Day of My Life': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
+      'Perfect': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3'
+    };
+
+    // Player functionality
+    let isPlaying = false;
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
     const stopBtn = document.getElementById('stopBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     const songItems = document.querySelectorAll('.song-item');
+<<<<<<< HEAD
     let currentSong = 'Love Story';
 
     // Add YouTube quick-link buttons to each song item (open embedded YouTube modal)
@@ -353,6 +399,9 @@
       ytBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openYouTubeEmbed(title); });
       item.appendChild(ytBtn);
     });
+=======
+    let currentSong = 'A Thousand Years';
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
 
     playBtn?.addEventListener('click', () => {
       const songTitle = currentSong.split(' — ')[0].trim();
@@ -387,6 +436,7 @@
       console.log('Volume: ' + e.target.value + '%');
     });
 
+<<<<<<< HEAD
     // Arrange each song item with a title span and open YouTube on click
     songItems.forEach((item) => {
       const text = item.textContent.trim();
@@ -404,12 +454,32 @@
         songItems.forEach(s => s.classList.remove('playing'));
         item.classList.add('playing');
         openYouTubeEmbed(cleanTitle);
+=======
+    songItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        currentSong = item.textContent;
+        songItems.forEach(s => s.classList.remove('playing'));
+        item.classList.add('playing');
+        
+        // Auto-play the selected song
+        const songTitle = currentSong.split(' — ')[0].trim();
+        const audioUrl = songMapping[songTitle] || Object.values(songMapping)[0];
+        audioPlayer.src = audioUrl;
+        audioPlayer.play();
+        playBtn.classList.add('active');
+        pauseBtn.classList.remove('active');
+        stopBtn.classList.remove('active');
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
       });
     });
 
     // Page dots navigation
     const pages = [
+<<<<<<< HEAD
       { title: 'Letter', url: 'index.html' },
+=======
+      { title: 'Letter', url: 'khushu.html' },
+>>>>>>> 3cdaade (Romantic Journey - 5 page experience with music and animations)
       { title: 'Gallery', url: 'gallery.html' },
       { title: 'Quotes', url: 'quotes.html' },
       { title: 'Music', url: 'music.html' },
