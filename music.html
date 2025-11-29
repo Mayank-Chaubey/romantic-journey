@@ -158,6 +158,23 @@
 
     .yt-btn:hover { transform: translateY(-2px); }
 
+    /* YouTube modal */
+    .yt-modal {
+      position: fixed; inset: 0; background: rgba(10,10,12,0.65);
+      display: none; align-items: center; justify-content: center; z-index: 6000;
+    }
+    .yt-modal.open { display: flex; }
+    .yt-modal .inner {
+      width: 90%; max-width: 900px; background: #000; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+    }
+    .yt-modal .close-btn {
+      position: absolute; top: 18px; right: 22px; background: rgba(255,255,255,0.08);
+      color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer;
+      font-weight: 700; z-index: 6100;
+    }
+    .yt-frame { width: 100%; height: 56vw; max-height: 560px; border: none; display: block; }
+
     .nav-buttons {
       display: flex; justify-content: space-between;
       margin-top: 50px; gap: 20px;
@@ -252,6 +269,14 @@
 
   <div class="page-dots" id="pageDots"></div>
 
+  <!-- YouTube embed modal -->
+  <div id="ytModal" class="yt-modal" aria-hidden="true">
+    <div class="inner">
+      <button id="ytClose" class="close-btn">Close ✕</button>
+      <iframe id="ytFrame" class="yt-frame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <script>
     function createFloatingNotes() {
       const container = document.getElementById('notes-container');
@@ -294,17 +319,36 @@
     const songItems = document.querySelectorAll('.song-item');
     let currentSong = 'A Thousand Years';
 
-    // Add YouTube quick-link buttons to each song item (opens search on YouTube)
+    // Add YouTube quick-link buttons to each song item (open embedded YouTube modal)
+    function openYouTubeEmbed(query) {
+      const modal = document.getElementById('ytModal');
+      const frame = document.getElementById('ytFrame');
+      // Use YouTube embed search playlist so users can pick official video
+      frame.src = 'https://www.youtube.com/embed?listType=search&list=' + encodeURIComponent(query) + '&autoplay=1&rel=0';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeYouTubeEmbed() {
+      const modal = document.getElementById('ytModal');
+      const frame = document.getElementById('ytFrame');
+      frame.src = '';
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    document.getElementById('ytClose').addEventListener('click', closeYouTubeEmbed);
+    document.getElementById('ytModal').addEventListener('click', (e) => { if (e.target.id === 'ytModal') closeYouTubeEmbed(); });
+
     songItems.forEach(item => {
-      const title = item.textContent.trim();
-      const ytAnchor = document.createElement('a');
-      ytAnchor.className = 'yt-btn';
-      ytAnchor.textContent = 'YouTube';
-      ytAnchor.target = '_blank';
-      ytAnchor.rel = 'noopener noreferrer';
-      // Open a YouTube search for the song (user can pick the official video)
-      ytAnchor.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(title);
-      item.appendChild(ytAnchor);
+      const rawText = item.firstChild && item.firstChild.nodeValue ? item.firstChild.nodeValue.trim() : item.textContent.trim();
+      const title = rawText.replace(/\s*YouTube\s*$/i, '').trim();
+      const ytBtn = document.createElement('button');
+      ytBtn.className = 'yt-btn';
+      ytBtn.type = 'button';
+      ytBtn.textContent = 'YouTube';
+      ytBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openYouTubeEmbed(title); });
+      item.appendChild(ytBtn);
     });
 
     playBtn?.addEventListener('click', () => {
